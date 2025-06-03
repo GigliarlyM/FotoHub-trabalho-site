@@ -11,8 +11,8 @@ export default function Home() {
     return (
         <>
             <div className="button-container">
-                <button onClick={() => navigate("login/photographer")}>Entrar como Fotográfo</button>
-                <button onClick={() => navigate("login/client")}>Entrar como Cliente</button>
+                <button style={{backgroundColor: "grey"}} disabled onClick={() => navigate("login/client")}>Entrar como Cliente</button>
+                <button style={{backgroundColor: "grey"}} disabled onClick={() => navigate("login/photographer")}>Entrar como Fotográfo</button>
                 <button onClick={() => navigate("signup")}>Cadastrar</button>
             </div>
             <div className="text-container">
@@ -41,7 +41,6 @@ function RenderPhotos () {
                 const response = await axios.get(uriApi)
 
                 setPhotos(response.data.artes)
-                console.log(response.data.artes)
             } catch (error) {
                 console.error(error);
             } finally {

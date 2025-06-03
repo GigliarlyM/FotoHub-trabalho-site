@@ -8,13 +8,10 @@ export default function CadastroGeral() {
 
     const [nomeCliente, setNomeCliente] = useState('');
     const [emailCliente, setEmailCliente] = useState('');
-    const [cpfCliente, setCpfCliente] = useState('');
+    const [senhaCliente, setSenhaCliente] = useState('');
 
-    const [nomeFotografo, setNomeFotografo] = useState('');
-    const [apelidoFotografo, setApelidoFotografo] = useState('');
-    const [emailFotografo, setEmailFotografo] = useState('');
-    const [dataNascFotografo, setDataNascFotografo] = useState('');
-    const [cpfFotografo, setCpfFotografo] = useState('');
+    const [apelidoArtista, setApelidoArtista] = useState('');
+    const [emailUsuario, setEmailUsuario] = useState('');
 
     const showForm = (form) => {
         setActiveForm(form);
@@ -29,13 +26,15 @@ export default function CadastroGeral() {
         const cliente = {
             nome: nomeCliente,
             email: emailCliente,
-            cpf: cpfCliente
+            senha: senhaCliente
         }
 
         try {
             const token = getToken();
-            const response = await axios.post(import.meta.env.VITE_APP_API_URL + `/cliente`, cliente)
-            console.log("Cliente cadastrado " + response.data)
+            const response = await axios.post(import.meta.env.VITE_APP_API_URL + `/client`, cliente)
+            if (response) {
+                navigate('/')
+            }
         } catch (error) {
             if (error.response.data.message == "CPF já cadastrado") {
                 console.log("CPF já cadastrado")
@@ -49,16 +48,13 @@ export default function CadastroGeral() {
     const handlePhotographerSubmit = async () => {
 
         const fotografo = {
-            nome: nomeFotografo,
-            apelido: apelidoFotografo,
-            email: emailFotografo,
-            dataNascimento: dataNascFotografo,
-            cpf: cpfFotografo
+            userName: apelidoArtista,
+            clientEmail: emailUsuario
         }
 
         try {
             const token = getToken();
-            const response = await axios.post(import.meta.env.VITE_APP_API_URL + `/photographer`, fotografo)
+            const response = await axios.post(import.meta.env.VITE_APP_API_URL + `/artist`, fotografo)
             console.log("Fotográfo cadastrado " + response.data)
         } catch (error) {
             if (error.response.data.message == "CPF já cadastrado") {
@@ -79,16 +75,14 @@ export default function CadastroGeral() {
                 <button
                     id="clienteTab"
                     className={activeForm === 'cliente' ? 'active' : ''}
-                    onClick={() => showForm('cliente')}
-                >
+                    onClick={() => showForm('cliente')}>
                     Cliente/Usuário
                 </button>
                 <button
                     id="fotografoTab"
                     className={activeForm === 'fotografo' ? 'active' : ''}
-                    onClick={() => showForm('fotografo')}
-                >
-                    Fotógrafo
+                    onClick={() => showForm('fotografo')}>
+                    Artista
                 </button>
             </div>
 
@@ -102,8 +96,8 @@ export default function CadastroGeral() {
                         <label htmlFor="emailCliente">Email</label>
                         <input type="email" id="emailCliente" placeholder="Email" value={emailCliente} onChange={e => setEmailCliente(e.target.value)} />
 
-                        <label htmlFor="cpfCliente">CPF</label>
-                        <input type="text" id="cpfCliente" placeholder="CPF" value={cpfCliente} onChange={e => setCpfCliente(e.target.value)} />
+                        <label htmlFor="senhaCliente">senha</label>
+                        <input type="password" id="senhaCliente" placeholder="senha" value={senhaCliente} onChange={e => setSenhaCliente(e.target.value)} />
 
                         <br />
 
@@ -118,20 +112,11 @@ export default function CadastroGeral() {
                 <div id="fotografoForm" className="form-container">
                     <form>
                         <br />
-                        <label htmlFor="nomeFotografo">Nome</label>
-                        <input type="text" id="nomeFotografo" placeholder="Nome" value={nomeFotografo} onChange={e => setNomeFotografo(e.target.value)} />
+                        <label htmlFor="apelidoArtista">Apelido</label>
+                        <input type="text" id="apelidoArtista" placeholder="Apelido" value={apelidoArtista} onChange={e => setApelidoArtista(e.target.value)} />
 
-                        <label htmlFor="apelidoFotografo">Apelido</label>
-                        <input type="text" id="apelidoFotografo" placeholder="Apelido" value={apelidoFotografo} onChange={e => setApelidoFotografo(e.target.value)} />
-
-                        <label htmlFor="emailFotografo">Email</label>
-                        <input type="email" id="emailFotografo" placeholder="Email" value={emailFotografo} onChange={e => setEmailFotografo(e.target.value)}/>
-
-                        <label htmlFor="dataNascFotografo">Data de Nascimento</label>
-                        <input type="date" id="dataNascFotografo" value={dataNascFotografo} onChange={e => setDataNascFotografo(e.target.value)} />
-
-                        <label htmlFor="cpfFotografo">CPF</label>
-                        <input type="text" id="cpfFotografo" name="cpfFotografo" placeholder="CPF" value={cpfFotografo} onChange={e => setCpfFotografo(e.target.value)} />
+                        <label htmlFor="emailUsuario">Email da conta de usuario</label>
+                        <input type="email" id="emailUsuario" placeholder="Email" value={emailUsuario} onChange={e => setEmailUsuario(e.target.value)}/>
 
                         <br />
 
